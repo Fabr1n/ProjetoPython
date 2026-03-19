@@ -4,18 +4,18 @@ import random
 
 delay = 0.1
 
-# Score
+# pontuação
 score = 0
 high_score = 0
 
-# Set up the screen
+# config da interface
 wn = turtle.Screen()
 wn.title("Snake Game by @Fabr1nx")
 wn.bgcolor("black")
 wn.setup(width=600, height=600)
-wn.tracer(0) # Turns off the screen updates
+wn.tracer(0) # desativa as atualizações de tela
 
-# Snake head
+# corpo da cobra
 head = turtle.Turtle()
 head.speed(0)
 head.shape("square")
@@ -24,7 +24,7 @@ head.penup()
 head.goto(0,0)
 head.direction = "stop"
 
-# Snake food
+# comida da cobra
 food = turtle.Turtle()
 food.speed(0)
 food.shape("triangle")
@@ -34,7 +34,7 @@ food.goto(0,100)
 
 segments = []
 
-# Pen
+# caneta
 pen = turtle.Turtle()
 pen.speed(0)
 pen.shape("square")
@@ -44,7 +44,7 @@ pen.hideturtle()
 pen.goto(0, 260)
 pen.write("Score: 0  High Score: 0", align="center", font=("Courier", 24, "normal"))
 
-# Functions
+# Funções
 def go_up():
     if head.direction != "down":
         head.direction = "up"
@@ -78,43 +78,43 @@ def move():
         x = head.xcor()
         head.setx(x + 20)
 
-# Keyboard bindings
+# teclas
 wn.listen()
 wn.onkeypress(go_up, "w")
 wn.onkeypress(go_down, "s")
 wn.onkeypress(go_left, "a")
 wn.onkeypress(go_right, "d")
 
-# Main game loop
+# loop principal
 while True:
     wn.update()
 
-    # Check for a collision with the border
+    # Colisão com a borda
     if head.xcor()>290 or head.xcor()<-290 or head.ycor()>290 or head.ycor()<-290:
         time.sleep(1)
         head.goto(0,0)
         head.direction = "stop"
 
-        # Hide the segments
+        # esconder os segmentos
         for segment in segments:
             segment.goto(1000, 1000)
         
-        # Clear the segments list
+        # limpar segmentos
         segments.clear()
 
-        # Reset the score
+        # Resetar o score
         score = 0
 
-        # Reset the delay
+        # Resetar o delay
         delay = 0.1
 
         pen.clear()
         pen.write("Score: {}  High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal")) 
 
 
-    # Check for a collision with the food
+    # Colisão com o corpo da cobra
     if head.distance(food) < 20:
-        # Move the food to a random spot
+        # spawn da comida (aleatório)
         x = random.randint(-290, 290)
         y = random.randint(-290, 290)
         food.goto(x,y)
@@ -127,10 +127,10 @@ while True:
         new_segment.penup()
         segments.append(new_segment)
 
-        # Shorten the delay
+        # deminuir o delay
         delay -= 0.001
 
-        # Increase the score
+        # aumentar o score
         score += 10
 
         if score > high_score:
@@ -139,13 +139,13 @@ while True:
         pen.clear()
         pen.write("Score: {}  High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal")) 
 
-    # Move the end segments first in reverse order
+    # segmentos extras
     for index in range(len(segments)-1, 0, -1):
         x = segments[index-1].xcor()
         y = segments[index-1].ycor()
         segments[index].goto(x, y)
 
-    # Move segment 0 to where the head is
+
     if len(segments) > 0:
         x = head.xcor()
         y = head.ycor()
@@ -153,27 +153,27 @@ while True:
 
     move()    
 
-    # Check for head collision with the body segments
+    # verificação de colisão com corpo da cobra
     for segment in segments:
         if segment.distance(head) < 20:
             time.sleep(1)
             head.goto(0,0)
             head.direction = "stop"
         
-            # Hide the segments
+            # esconder segmentos
             for segment in segments:
                 segment.goto(1000, 1000)
         
-            # Clear the segments list
+            # limpar segmentos
             segments.clear()
 
-            # Reset the score
+            # Resetar o score
             score = 0
 
-            # Reset the delay
+            # Resetar o delay
             delay = 0.1
         
-            # Update the score display
+            # atualizar a interface de score
             pen.clear()
             pen.write("Score: {}  High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal"))
 
