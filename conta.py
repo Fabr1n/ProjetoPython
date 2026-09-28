@@ -39,5 +39,5 @@ class Conta:
 
 
 
-thiago = Conta("Thiago", 1500, 100)
-thiago.operacao()
+fabrini = Conta("Fabrini", 1500, 100)
+fabrini.operacao()
